@@ -574,7 +574,7 @@ public class SecurityConstraint extends XmlEncodingBase implements Serializable 
 
         }
 
-        return result.toArray(new SecurityConstraint[result.size()]);
+        return result.toArray(new SecurityConstraint[0]);
     }
 
     private static SecurityConstraint createConstraint(
@@ -631,9 +631,7 @@ public class SecurityConstraint extends XmlEncodingBase implements Serializable 
                 String[] omittedMethods = collection.findOmittedMethods();
                 // Simple case: no methods
                 if (methods.length == 0 && omittedMethods.length == 0) {
-                    for (String pattern : patterns) {
-                        coveredPatterns.add(pattern);
-                    }
+                    coveredPatterns.addAll(Arrays.asList(patterns));
                     continue;
                 }
 
@@ -665,9 +663,7 @@ public class SecurityConstraint extends XmlEncodingBase implements Serializable 
                                 m = new HashSet<>();
                                 urlMethodMap.put(pattern, m);
                             }
-                            for (String method : methods) {
-                                m.add(method);
-                            }
+                            m.addAll(Arrays.asList(methods));
                         }
                     }
                 }
@@ -733,7 +729,7 @@ public class SecurityConstraint extends XmlEncodingBase implements Serializable 
                     newConstraints, log);
         }
 
-        return newConstraints.toArray(new SecurityConstraint[newConstraints.size()]);
+        return newConstraints.toArray(new SecurityConstraint[0]);
     }
 
 

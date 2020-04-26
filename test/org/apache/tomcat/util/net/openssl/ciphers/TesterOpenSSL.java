@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -365,10 +366,7 @@ public class TesterOpenSSL {
 
     public static Set<String> getOpenSSLCiphersAsSet(String specification) throws Exception {
         String[] ciphers = getOpenSSLCiphersAsExpression(specification).trim().split(":");
-        Set<String> result = new HashSet<>(ciphers.length);
-        for (String cipher : ciphers) {
-            result.add(cipher);
-        }
+        Set<String> result = new HashSet<>(Arrays.asList(ciphers));
         return result;
     }
 
@@ -397,7 +395,7 @@ public class TesterOpenSSL {
             args.add(specification);
         }
 
-        String stdout = executeOpenSSLCommand(args.toArray(new String[args.size()]));
+        String stdout = executeOpenSSLCommand(args.toArray(new String[0]));
 
         if (stdout.length() == 0) {
             return stdout;
@@ -469,11 +467,9 @@ public class TesterOpenSSL {
         }
         List<String> cmd = new ArrayList<>();
         cmd.add(openSSLPath);
-        for (String arg : args) {
-            cmd.add(arg);
-        }
+        cmd.addAll(Arrays.asList(args));
 
-        ProcessBuilder pb = new ProcessBuilder(cmd.toArray(new String[cmd.size()]));
+        ProcessBuilder pb = new ProcessBuilder(cmd.toArray(new String[0]));
 
         if (openSSLLibPath != null) {
             Map<String,String> env = pb.environment();

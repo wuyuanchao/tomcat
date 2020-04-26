@@ -1183,10 +1183,7 @@ public class ContextConfig implements LifecycleListener {
         if (ok) {
             // Spec does not define an order.
             // Use ordered JARs followed by remaining JARs
-            Set<WebXml> resourceJars = new LinkedHashSet<>();
-            for (WebXml fragment : orderedFragments) {
-                resourceJars.add(fragment);
-            }
+            Set<WebXml> resourceJars = new LinkedHashSet<>(orderedFragments);
             for (WebXml fragment : fragments.values()) {
                 if (!resourceJars.contains(fragment)) {
                     resourceJars.add(fragment);

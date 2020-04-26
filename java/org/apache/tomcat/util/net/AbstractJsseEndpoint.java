@@ -130,11 +130,10 @@ public abstract class AbstractJsseEndpoint<S,U> extends AbstractEndpoint<S,U> {
             // one protocol in common
             // Note: Tomcat does not explicitly negotiate http/1.1
             // TODO: Is this correct? Should it change?
-            List<String> commonProtocols = new ArrayList<>();
-            commonProtocols.addAll(negotiableProtocols);
+            List<String> commonProtocols = new ArrayList<>(negotiableProtocols);
             commonProtocols.retainAll(clientRequestedApplicationProtocols);
             if (commonProtocols.size() > 0) {
-                String[] commonProtocolsArray = commonProtocols.toArray(new String[commonProtocols.size()]);
+                String[] commonProtocolsArray = commonProtocols.toArray(new String[0]);
                 JreCompat.getInstance().setApplicationProtocols(sslParameters, commonProtocolsArray);
             }
         }

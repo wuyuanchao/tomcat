@@ -52,6 +52,13 @@
         <code>AprLifecycleListener</code> so that the only way to use the APR
         connectors is to set the full class name. (remm)
       </update>
+      <add>
+        <bug>59203</bug>: Before calling <code>Thread.stop()</code> (if
+        configured to do so) on a web application created thread that is not
+        stopped by the web application when the web application is stopped, try
+        interrupting the thread first. Based on a pull request by Govinda
+        Sakhare. (markt)
+      </add>
       <fix>
         <bug>62912</bug>: Don't mutate an application provided content header if
         it does not contain a charset. Also remove the outdated workaround for
@@ -75,6 +82,22 @@
         Remove redundant sole path/URI from error page message on SC_NOT_FOUND.
         (michaelo)
       </update>
+      <add>
+        Log a warning if a <code>CredentialHandler</code> instance is added to
+        an instance of the <code>CombinedRealm</code> (or a sub-class) as the
+        <code>CombinedRealm</code> doesn't use a configued
+        <code>CredentialHandler</code> and it is likely that a configuration
+        error has occurred. (markt)
+      </add>
+      <add>
+        Add more descriptive error message in DefaultServlet for SC_NOT_FOUND.
+        (michaelo)
+      </add>
+      <fix>
+        <bug>64309</bug>; Improve the regular expression used to search for
+        class loader repositories when bootstrapping Tomcat. Pull request
+        provided by Paul Muriel Biya-Bi. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
@@ -87,6 +110,11 @@
         Include the problematic data in the error message when reporting that
         the provided request line contains an invalid component. (markt)
       </fix>
+      <fix>
+        Improve the handling of requests that use an expectation. Do not disable
+        keep-alive where the response has a non-2xx status code but the request
+        body has been fully read. (rjung/markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">
@@ -95,6 +123,18 @@
         Remove redundant sole path/URI from error page message on SC_NOT_FOUND.
         (michaelo)
       </update>
+      <add>
+        Add more descriptive error message in DefaultServlet for SC_NOT_FOUND.
+        (michaelo)
+      </add>
+    </changelog>
+  </subsection>
+  <subsection name="Web applications">
+    <changelog>
+      <fix>
+        Fix the saving of a Context configuration file via the scripting
+        interface of the Manager web application. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
@@ -102,6 +142,26 @@
       <update>
         Update JUnit to version 4.13. (markt)
       </update>
+      <fix>
+        Add missing entries to test class path in sample NetBeans configuration
+        files. Patch provided by Brian Burch. (markt)
+      </fix>
+      <scode>
+        Refactor to use parameterized <code>Collection</code> constructors where
+        possible. Pull request provided by Lars Grefer. (markt)
+      </scode>
+      <scode>
+        Refactor to use empty arrays with <code>Collections.toArray()</code>.
+        Pull request provided by Lars Grefer. (markt)
+      </scode>
+      <scode>
+        Refactor loops with a condition to exit as soon as the condition is met.
+        Pull request provided by Lars Grefer. (markt)
+      </scode>
+      <scode>
+        Refactor bulk addition to collections to use <code>addAll()</code>
+        rather than a loop. Pull request provided by Lars Grefer. (markt)
+      </scode>
     </changelog>
   </subsection>
 </section>

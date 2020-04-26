@@ -461,7 +461,7 @@ public class HostConfig implements LifecycleListener {
                 filteredList.add(appPath);
             }
         }
-        return filteredList.toArray(new String[filteredList.size()]);
+        return filteredList.toArray(new String[0]);
     }
 
 
@@ -1652,8 +1652,7 @@ public class HostConfig implements LifecycleListener {
         }
 
         // Need ordered set of names
-        SortedSet<String> sortedAppNames = new TreeSet<>();
-        sortedAppNames.addAll(deployed.keySet());
+        SortedSet<String> sortedAppNames = new TreeSet<>(deployed.keySet());
 
         Iterator<String> iter = sortedAppNames.iterator();
 

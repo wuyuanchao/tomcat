@@ -110,7 +110,7 @@ public abstract class SSLUtilBase implements SSLUtil {
         if (enabledProtocols.contains("SSLv3")) {
             log.warn(sm.getString("jsse.ssl3"));
         }
-        this.enabledProtocols = enabledProtocols.toArray(new String[enabledProtocols.size()]);
+        this.enabledProtocols = enabledProtocols.toArray(new String[0]);
 
         if (enabledProtocols.contains(Constants.SSL_PROTO_TLSv1_3) &&
                 sslHostConfig.getCertificateVerification() == CertificateVerification.OPTIONAL &&
@@ -123,7 +123,7 @@ public abstract class SSLUtilBase implements SSLUtil {
         Set<String> implementedCiphers = getImplementedCiphers();
         List<String> enabledCiphers =
                 getEnabled("ciphers", getLog(), false, configuredCiphers, implementedCiphers);
-        this.enabledCiphers = enabledCiphers.toArray(new String[enabledCiphers.size()]);
+        this.enabledCiphers = enabledCiphers.toArray(new String[0]);
     }
 
 
@@ -155,8 +155,7 @@ public abstract class SSLUtilBase implements SSLUtil {
             }
             if (log.isDebugEnabled() || warnOnSkip) {
                 if (enabled.size() != configured.size()) {
-                    List<T> skipped = new ArrayList<>();
-                    skipped.addAll(configured);
+                    List<T> skipped = new ArrayList<>(configured);
                     skipped.removeAll(enabled);
                     String msg = sm.getString("sslUtilBase.skipped", name, skipped);
                     if (warnOnSkip) {
@@ -307,8 +306,7 @@ public abstract class SSLUtilBase implements SSLUtil {
                     keyPass);
             PEMFile certificateFile = new PEMFile(certificate.getCertificateFile());
 
-            Collection<Certificate> chain = new ArrayList<>();
-            chain.addAll(certificateFile.getCertificates());
+            Collection<Certificate> chain = new ArrayList<>(certificateFile.getCertificates());
             if (certificate.getCertificateChainFile() != null) {
                 PEMFile certificateChainFile = new PEMFile(certificate.getCertificateChainFile());
                 chain.addAll(certificateChainFile.getCertificates());
@@ -322,7 +320,7 @@ public abstract class SSLUtilBase implements SSLUtil {
             ksUsed = KeyStore.getInstance("JKS");
             ksUsed.load(null,  null);
             ksUsed.setKeyEntry(keyAlias, privateKeyFile.getPrivateKey(), keyPass.toCharArray(),
-                    chain.toArray(new Certificate[chain.size()]));
+                    chain.toArray(new Certificate[0]));
         } else {
             if (keyAlias != null && !ks.isKeyEntry(keyAlias)) {
                 throw new IOException(sm.getString("jsse.alias_no_key_entry", keyAlias));

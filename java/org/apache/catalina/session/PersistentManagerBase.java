@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -647,16 +648,11 @@ public abstract class PersistentManagerBase extends ManagerBase
 
     @Override
     public Set<String> getSessionIdsFull() {
-        Set<String> sessionIds = new HashSet<>();
         // In memory session ID list
-        sessionIds.addAll(sessions.keySet());
-        // Store session ID list
-        String[] storeKeys;
+        Set<String> sessionIds = new HashSet<>(sessions.keySet());
         try {
-            storeKeys = getStore().keys();
-            for (String storeKey : storeKeys) {
-                sessionIds.add(storeKey);
-            }
+            // Store session ID list
+            sessionIds.addAll(Arrays.asList(getStore().keys()));
         } catch (IOException e) {
             log.warn(sm.getString("persistentManager.storeKeysException"));
         }
